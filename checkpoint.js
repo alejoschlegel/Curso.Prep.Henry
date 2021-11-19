@@ -9,6 +9,7 @@ function minutosASegundos(minutos) {
   // minutosASegundos(5) => 300
   // minutosASegundos(3) => 180
   // Tu código aca:
+  return minutos * 60;
 
 }
 
@@ -21,6 +22,11 @@ function promedio(array) {
   // Nota: Los numeros estan ordenados de menor a mayor.
 
   // Tu código aca:
+  var promedio = 0;
+  for (var i = 0; i < array.length; i++){
+    promedio += array[i]
+  }
+  return promedio / array.length;
 
 }
 
@@ -45,6 +51,13 @@ function salarioAnual(empleados, nombre) {
   // salarioAnual(empleados, 'Flor'); => 48000
   // salarioAnual(empleados, 'Manuel;); => 12000
   // Tu código aca:
+  var salarioAnual = 0;
+  for(var key in empleados){
+    if(empleados[key].nombre == nombre){
+      salarioAnual = empleados[key].salario * 12;
+    }
+  }
+  return salarioAnual;
 
 }
 
@@ -56,6 +69,10 @@ function encontrarLaPalabra(string) {
   // encontrarLaBomba('hola que tal, como va?!') => false;
 
   // Tu código:
+  if(string.indexOf("henry") != -1){
+    return true;
+  }
+  return false;
 
 }
 
@@ -73,6 +90,14 @@ function index() {
   // numeros.encontraIndex(23) debe devolver -1 ya que ese elemento no existe en ese array.
 
   // Tu código aca:
+  Array.prototype.encontraIndex= function (elemento){
+    for (var i = 0; i < this.length; i++){
+      if(elemento == this[i]){
+        return i;
+      }
+    }
+    return -1;
+  }
 
 };
 
@@ -84,7 +109,11 @@ function crearClaseEmpleado() {
   // nombre (string) , salario (integer) , tareas (array de objetos), jefe (booleano - por defecto false) 
 
   class Empleado {
-    constructor() {
+    constructor(nombre, salario, tareas, jefe) {
+      this.nombre= nombre;
+      this.salario= salario;
+      this.tareas= tareas;
+      this.jefe= jefe || false;
 
     }
 
@@ -92,6 +121,11 @@ function crearClaseEmpleado() {
       // el metodo addTarea recibe un string tarea y un entero prioridad y debe agregar un objeto:
       // { tarea: tarea, prioridad: prioridad} al arreglo de tareas del empleado.
       // no debe retornar nada.
+      var obj = {
+        tarea: tarea, 
+        prioridad: prioridad
+      }
+      this.tareas.push(obj);
       
     }
 
@@ -99,6 +133,11 @@ function crearClaseEmpleado() {
       // este método debe switchear el booleano jefe, si estaba en true, dejarlo en false
       // y si estaba en false, dejarlo en true
       // no debe retornar nada.
+      if(this.jefe == false){
+        this.jefe = true;
+      }else{
+        this.jefe = false;
+      }
       
     }
     getTareas() {
@@ -111,7 +150,12 @@ function crearClaseEmpleado() {
       //  ];
       // Ej:
       // persona.getTareas() // retorna ['compras', 'dar clases', 'operaciones']
-      
+      var array = [];
+      for (var i = 0; i < this.tareas.length; i++){
+        array.push(this.tareas[i].tarea)
+      }
+      return array;
+
     }
 
     getTareasPrioritarias(prioridad) {
@@ -131,6 +175,13 @@ function crearClaseEmpleado() {
       //  nombre: 'compras',
       //  prioridad: 4,
       // }]
+      var rta = [];
+      for (var key in this.tareas){
+        if(this.tareas[key].prioridad > prioridad){
+          rta.push(this.tareas[key]);
+        }
+      }
+      return rta;
       
     }
 
@@ -163,7 +214,15 @@ function filtrar(funcion) {
   // productos.filtrar(function(p) {
   //   return p.price >= 50;
   // }) => [{price: 100, name:'tv'}]
-  
+  Array.prototype.filtrar = function(cb){
+    var array = [];
+    for(var key in this){
+      if(cb(this[key]) == true){
+        array.push(this[key]);
+      }
+    }
+    return array;
+  }
   
 };
 
